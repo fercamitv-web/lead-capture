@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Itens</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg: #0f0f13; --card: #18181c; --border: #2a2a30; --accent: #a855f7; --accent2: #e879f9; --text: #f1f5f9; --muted: #71717a; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            background-image: radial-gradient(ellipse at top, rgba(168,85,247,0.06), transparent 60%);
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+        nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px; max-width: 1000px; margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        nav .logo { font-weight: 800; font-size: 20px; }
+        nav .logo span { color: var(--accent); }
+        .coins {
+            display: flex; align-items: center; gap: 6px;
+            background: var(--card); padding: 6px 14px; border-radius: 20px;
+            border: 1px solid var(--border); font-size: 14px; font-weight: 600;
+        }
+        .coins .icon { font-size: 16px; }
+
+        .hero {
+            text-align: center; padding: 60px 0 40px;
+        }
+        .hero h1 { font-size: 36px; font-weight: 800; }
+        .hero h1 span { color: var(--accent); }
+        .hero p { color: var(--muted); font-size: 16px; margin-top: 8px; }
+
+        .categories {
+            display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+        .cat-btn {
+            padding: 8px 20px; border-radius: 20px; border: 1px solid var(--border);
+            background: transparent; color: var(--muted); font-size: 14px;
+            cursor: pointer; transition: all 0.2s; font-family: inherit; font-weight: 500;
+        }
+        .cat-btn:hover, .cat-btn.active { background: var(--card); color: var(--text); border-color: var(--accent); }
+
+        .shop-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;
+        }
+        .item {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px; text-align: center;
+            transition: all 0.2s; position: relative;
+        }
+        .item:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .item .rarity {
+            position: absolute; top: 8px; right: 8px;
+            font-size: 10px; font-weight: 700; text-transform: uppercase;
+            padding: 2px 8px; border-radius: 10px;
+        }
+        .r-comum { background: #1e293b; color: #94a3b8; }
+        .r-raro { background: #1e3a5f; color: #60a5fa; }
+        .r-epico { background: #3b1f5e; color: #c084fc; }
+        .r-lendario { background: #5e3f1f; color: #fbbf24; }
+        .item .icon { font-size: 40px; margin: 4px 0 8px; }
+        .item h3 { font-size: 15px; font-weight: 600; }
+        .item .desc { color: var(--muted); font-size: 12px; margin: 4px 0 8px; line-height: 1.4; }
+        .item .price {
+            font-size: 20px; font-weight: 700; color: var(--accent2);
+            margin: 8px 0 12px;
+        }
+        .item .price small { font-size: 12px; color: var(--muted); font-weight: 400; }
+        .btn-buy {
+            width: 100%; padding: 10px; border-radius: 8px;
+            background: var(--accent); color: #fff; border: none;
+            font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: background 0.2s; font-family: inherit;
+        }
+        .btn-buy:hover { background: #9333ea; }
+
+        .cart-sidebar {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 24px; }
+            .shop-grid { grid-template-columns: repeat(2, 1fr); }
+            nav .coins { font-size: 12px; padding: 4px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Game<span>Shop</span></div>
+        <div class="coins">
+            <span class="icon">🪙</span>
+            <span id="displayBalance">12.450</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Loja de <span>Itens</span></h1>
+            <p>Compre itens, vips e moedas para o jogo</p>
+        </div>
+
+        <div class="categories">
+            <button class="cat-btn active">Todos</button>
+            <button class="cat-btn">VIP</button>
+            <button class="cat-btn">Armas</button>
+            <button class="cat-btn">Itens</button>
+            <button class="cat-btn">Moedas</button>
+        </div>
+
+        <div class="shop-grid" id="shopGrid"></div>
+    </div>
+
+    <script>
+        const items = [
+            { id: 1, name: 'VIP Bronze', desc: 'Kit inicial + /fly', icon: '⭐', price: 1900, cat: 'vip', rarity: 'comum' },
+            { id: 2, name: 'VIP Ouro', desc: 'Tudo + /god + /ec', icon: '👑', price: 6900, cat: 'vip', rarity: 'raro' },
+            { id: 3, name: 'VIP Diamante', desc: 'Acesso total + tag', icon: '💎', price: 12900, cat: 'vip', rarity: 'epico' },
+            { id: 4, name: 'Espada Lendária', desc: 'Dano +15, fogo', icon: '🗡️', price: 3500, cat: 'armas', rarity: 'lendario' },
+            { id: 5, name: 'Arco Precise', desc: 'Tiro perfeito', icon: '🏹', price: 2400, cat: 'armas', rarity: 'raro' },
+            { id: 6, name: 'Pistola Custom', desc: 'Alta velocidade', icon: '🔫', price: 2900, cat: 'armas', rarity: 'epico' },
+            { id: 7, name: 'Poção de Veloc', desc: 'Velocidade +50% (1h)', icon: '🧪', price: 500, cat: 'itens', rarity: 'comum' },
+            { id: 8, name: 'Escudo Reforçado', desc: 'Bloqueia +40% dano', icon: '🛡️', price: 1800, cat: 'itens', rarity: 'raro' },
+            { id: 9, name: 'Chave Misteriosa', desc: 'Abra baús especiais', icon: '🔑', price: 800, cat: 'itens', rarity: 'epico' },
+            { id: 10, name: '100 Moedas', desc: 'Saldo para a loja', icon: '🪙', price: 1000, cat: 'moedas', rarity: 'comum' },
+            { id: 11, name: '500 Moedas', desc: 'Saldo para a loja', icon: '💰', price: 4000, cat: 'moedas', rarity: 'raro' },
+            { id: 12, name: '2000 Moedas', desc: 'Saldo para a loja', icon: '💳', price: 13000, cat: 'moedas', rarity: 'epico' },
+        ];
+
+        const rarityClass = { comum: 'r-comum', raro: 'r-raro', epico: 'r-epico', lendario: 'r-lendario' };
+        const formatPrice = (v) => (v / 100).toFixed(2).replace('.', ',');
+
+        function render(cat = 'todos') {
+            const grid = document.getElementById('shopGrid');
+            const filtered = cat === 'todos' ? items : items.filter(i => i.cat === cat);
+            grid.innerHTML = filtered.map(i => `
+                <div class="item">
+                    <span class="rarity ${rarityClass[i.rarity]}">${i.rarity}</span>
+                    <div class="icon">${i.icon}</div>
+                    <h3>${i.name}</h3>
+                    <div class="desc">${i.desc}</div>
+                    <div class="price">R$ ${formatPrice(i.price)}</div>
+                    <button class="btn-buy" data-id="${i.id}">Comprar</button>
+                </div>
+            `).join('');
+
+            grid.querySelectorAll('.btn-buy').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const item = items.find(i => i.id === +btn.dataset.id);
+                    alert(`Compra de ${item.name} (R$ ${formatPrice(item.price)}) simulada!\nEm produção, integre com Mercado Pago/PIX.`);
+                });
+            });
+        }
+
+        render();
+
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                render(btn.textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+            });
+        });
+    </script>
+</body>
+</html>
