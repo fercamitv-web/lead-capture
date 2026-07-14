@@ -1,0 +1,37 @@
+=== COMO USAR ===
+
+1. CRIPLE O BACKEND (Google Sheets)
+   - Crie uma planilha nova no Google Sheets
+   - Va em "Extensoes" > "Apps Script"
+   - Apague o codigo que vem e cole o conteudo do google-apps-script.js
+   - Salve (CTRL+S) e de um nome pro projeto
+   - Va em "Implantar" > "Nova implantacao"
+   - Tipo: "Web app", Execute como: "Eu", Acesso: "Qualquer pessoa"
+   - Clique em "Implantar" e confirme
+   - COPIE A URL gerada (algo como https://script.google.com/macros/s/.../exec)
+
+2. CONECTE O SITE
+   - Abra o index.html
+   - Na linha 79, troque SEU_ID_AQUI pela URL que voce copiou
+   - Salve
+
+3. PUBLIQUE O SITE (Gratis)
+   - Crie conta no Netlify (netlify.com) ou Vercel (vercel.com)
+   - Nao precisa digitar nada, e so:
+     a) Jogue a pasta com o index.html dentro
+     b) Pronto, link gerado automaticamente
+
+4. COMPARTILHE
+   - O link do site ja pode ser divulgado
+   - Os leads caem automaticamente na planilha
+
+5. VENDA (se quiser)
+   - Cobre R$50-100 de um cliente pra montar isso
+   - Leva 10 minutos pra fazer do zero
+   - Custa ZERO de hospedagem
+
+======
+
+Pronto. Sistema completo de captura de leads.
+Manutencao: zero.
+Custo mensal: zero.
