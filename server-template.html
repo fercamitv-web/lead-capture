@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Servidor - Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg: #0a0e17; --card: #111827; --border: #1e293b; --accent: #6366f1; --accent2: #22d3ee; --text: #f1f5f9; --muted: #94a3b8; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* NAV */
+        nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px; max-width: 1100px; margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+        nav .logo { font-weight: 800; font-size: 20px; color: var(--accent); }
+        nav .logo span { color: var(--accent2); }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .nav-links a.active { border-bottom: 2px solid var(--accent); padding-bottom: 4px; }
+        .online-badge {
+            display: flex; align-items: center; gap: 8px;
+            background: #065f46; color: #6ee7b7; padding: 6px 14px;
+            border-radius: 20px; font-size: 13px; font-weight: 600;
+        }
+        .online-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* HERO */
+        .hero {
+            text-align: center; padding: 80px 0 60px;
+            background: linear-gradient(180deg, rgba(99,102,241,0.08) 0%, transparent 100%);
+        }
+        .hero h1 { font-size: 44px; font-weight: 800; margin-bottom: 12px; }
+        .hero h1 span { color: var(--accent2); }
+        .hero p { color: var(--muted); font-size: 18px; max-width: 500px; margin: 0 auto 28px; }
+        .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 28px; border-radius: 10px; font-weight: 600; font-size: 15px;
+            text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
+        }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: #4f46e5; transform: translateY(-1px); }
+        .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+        .btn-outline:hover { background: var(--card); }
+
+        /* SERVER INFO */
+        .server-info {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+            margin: -30px auto 40px; position: relative; z-index: 2;
+        }
+        .info-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px; text-align: center;
+        }
+        .info-card .value { font-size: 24px; font-weight: 700; color: var(--accent); }
+        .info-card .label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+        /* SECTION */
+        section { padding: 60px 0; }
+        .section-title { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
+        .section-title span { color: var(--accent2); }
+
+        /* STORE */
+        .store-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;
+        }
+        .store-item {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 20px; text-align: center;
+            transition: border-color 0.2s;
+        }
+        .store-item:hover { border-color: var(--accent); }
+        .store-item .icon { font-size: 36px; margin-bottom: 8px; }
+        .store-item h3 { font-size: 16px; font-weight: 600; }
+        .store-item .price { color: var(--accent2); font-weight: 700; font-size: 18px; margin: 8px 0 12px; }
+        .store-item .btn { padding: 8px 20px; font-size: 13px; }
+
+        /* VOTE */
+        .vote-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+        .vote-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 24px; text-align: center;
+        }
+        .vote-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .vote-card p { color: var(--muted); font-size: 13px; margin-bottom: 12px; }
+        .vote-card .btn { width: 100%; justify-content: center; }
+
+        /* STATS */
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px 16px; color: var(--muted); font-size: 13px; font-weight: 500; border-bottom: 1px solid var(--border); }
+        td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .rank { color: var(--accent); font-weight: 700; }
+        .rank-1 { color: #fbbf24; } .rank-2 { color: #94a3b8; } .rank-3 { color: #d97706; }
+
+        /* FOOTER */
+        footer {
+            text-align: center; padding: 32px 20px;
+            border-top: 1px solid var(--border); color: var(--muted); font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav .nav-links { display: none; }
+            .server-info { grid-template-columns: repeat(2, 1fr); }
+            .hero h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Meu<span>Server</span></div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Início</a></li>
+            <li><a href="#votar">Votar</a></li>
+            <li><a href="#loja">Loja</a></li>
+            <li><a href="#stats">Ranking</a></li>
+        </ul>
+        <div class="online-badge">
+            <span class="dot"></span>
+            <span id="players-online">24</span> online
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <h1>O Melhor Servidor <span>Brasileiro</span></h1>
+            <p>IP: jogar.meuservidor.com | Versão: 1.20+</p>
+            <div class="hero-btns">
+                <a href="#loja" class="btn btn-primary">Comprar Vip</a>
+                <a href="#votar" class="btn btn-outline">Votar no Servidor</a>
+            </div>
+        </div>
+
+        <div class="server-info">
+            <div class="info-card">
+                <div class="value">24</div>
+                <div class="label">Jogadores Online</div>
+            </div>
+            <div class="info-card">
+                <div class="value">2,451</div>
+                <div class="label">Votos Totais</div>
+            </div>
+            <div class="info-card">
+                <div class="value">327</div>
+                <div class="label">Membros</div>
+            </div>
+            <div class="info-card">
+                <div class="value">98%</div>
+                <div class="label">Uptime</div>
+            </div>
+        </div>
+
+        <section id="votar">
+            <h2 class="section-title">Vote e Ganhe <span>Recompensas</span></h2>
+            <div class="vote-grid">
+                <div class="vote-card">
+                    <h3>Planet Minecraft</h3>
+                    <p>+5 Moedas</p>
+                    <a href="#" class="btn btn-primary">Votar</a>
+                </div>
+                <div class="vote-card">
+                    <h3>TopG</h3>
+                    <p>+5 Moedas</p>
+                    <a href="#" class="btn btn-primary">Votar</a>
+                </div>
+                <div class="vote-card">
+                    <h3>Servidores MC</h3>
+                    <p>+10 Moedas</p>
+                    <a href="#" class="btn btn-primary">Votar</a>
+                </div>
+                <div class="vote-card">
+                    <h3>Minecraft List</h3>
+                    <p>+5 Moedas</p>
+                    <a href="#" class="btn btn-primary">Votar</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="loja">
+            <h2 class="section-title">Loja <span>VIP</span></h2>
+            <div class="store-grid">
+                <div class="store-item">
+                    <div class="icon">⭐</div>
+                    <h3>VIP Bronze</h3>
+                    <p style="color:var(--muted);font-size:13px;margin:4px 0 8px;">Kit inicial + /fly</p>
+                    <div class="price">R$ 19,90</div>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                </div>
+                <div class="store-item">
+                    <div class="icon">💎</div>
+                    <h3>VIP Prata</h3>
+                    <p style="color:var(--muted);font-size:13px;margin:4px 0 8px;">Tudo do Bronze + /ec</p>
+                    <div class="price">R$ 39,90</div>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                </div>
+                <div class="store-item">
+                    <div class="icon">👑</div>
+                    <h3>VIP Ouro</h3>
+                    <p style="color:var(--muted);font-size:13px;margin:4px 0 8px;">Tudo do Prata + /god</p>
+                    <div class="price">R$ 69,90</div>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                </div>
+                <div class="store-item">
+                    <div class="icon">🔥</div>
+                    <h3>VIP Diamante</h3>
+                    <p style="color:var(--muted);font-size:13px;margin:4px 0 8px;">Tudo + tag colorida + cargo</p>
+                    <div class="price">R$ 129,90</div>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                </div>
+                <div class="store-item">
+                    <div class="icon">🎮</div>
+                    <h3>100 Moedas</h3>
+                    <p style="color:var(--muted);font-size:13px;margin:4px 0 8px;">Moedas do servidor</p>
+                    <div class="price">R$ 9,90</div>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                </div>
+                <div class="store-item">
+                    <div class="icon">🚀</div>
+                    <h3>500 Moedas</h3>
+                    <p style="color:var(--muted);font-size:13px;margin:4px 0 8px;">Moedas do servidor</p>
+                    <div class="price">R$ 39,90</div>
+                    <a href="#" class="btn btn-primary">Comprar</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="stats">
+            <h2 class="section-title">Ranking <span>Geral</span></h2>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Jogador</th><th>Kills</th><th>Moedas</th><th>Tempo Online</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="rank rank-1">1</td><td>PlayerMaster</td><td>1,247</td><td>52,300</td><td>342h</td></tr>
+                    <tr><td class="rank rank-2">2</td><td>NinjaBR</td><td>982</td><td>41,150</td><td>298h</td></tr>
+                    <tr><td class="rank rank-3">3</td><td>NoobGod</td><td>876</td><td>38,700</td><td>276h</td></tr>
+                    <tr><td>4</td><td>KingCraft</td><td>754</td><td>32,400</td><td>251h</td></tr>
+                    <tr><td>5</td><td>LoboMortal</td><td>621</td><td>28,950</td><td>219h</td></tr>
+                    <tr><td>6</td><td>StormBr</td><td>589</td><td>25,600</td><td>198h</td></tr>
+                    <tr><td>7</td><td>DragonWar</td><td>512</td><td>22,100</td><td>175h</td></tr>
+                    <tr><td>8</td><td>FenixRJ</td><td>478</td><td>19,800</td><td>162h</td></tr>
+                    <tr><td>9</td><td>ThunderX</td><td>423</td><td>17,400</td><td>148h</td></tr>
+                    <tr><td>10</td><td>DarkSoul</td><td>398</td><td>15,200</td><td>132h</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <footer>
+        <div style="margin-bottom:8px">© 2026 MeuServer • Não afiliado à Mojang/Microsoft</div>
+        <div>IP: jogar.meuservidor.com • Versão 1.20+</div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

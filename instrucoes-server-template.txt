@@ -1,0 +1,22 @@
+=== COMO VENDER O TEMPLATE DE SERVIDOR ===
+
+ONDE VENDER:
+- Mercado Livre (categoria "Jogos" > "Minecraft/Servidores")
+- Grupos de WhatsApp de Minecraft/RPG
+- Servidores do Discord de divulgação
+- Fiverr (anunciar como "I will create a professional Minecraft server website")
+
+PREÇO:
+- Template básico (votação + loja + ranking): R$50-100
+- Personalizado (com logo, cores, nome do servidor): R$100-200
+- Completo (com painel de admin e integração PIX): R$200-400
+
+COMO ENTREGAR:
+1. Abre o server-template.html
+2. Troca "MeuServer" pelo nome do servidor do cliente (CTRL+H)
+3. Troca as cores se quiser
+4. Sobe no GitHub Pages (igual fiz com o lead capture)
+5. Manda o link pro cliente
+
+PARA TESTAR O SEU:
+https://fercamitv-web.github.io/lead-capture/server-template.html
